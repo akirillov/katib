@@ -17,6 +17,7 @@ package katibclient
 
 import (
 	"context"
+	"log"
 
 	apiv1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
@@ -66,6 +67,9 @@ func NewClient(options client.Options) (Client, error) {
 	trialsv1alpha3.AddToScheme(scheme.Scheme)
 	suggestionsv1alpha3.AddToScheme(scheme.Scheme)
 	cl, err := client.New(cfg, options)
+	if err != nil {
+		log.Fatalf("Failed to create a client: %v", err)
+	}
 	return &KatibClient{
 		client: cl,
 	}, nil
